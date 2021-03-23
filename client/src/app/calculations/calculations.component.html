@@ -1,0 +1,43 @@
+<div class="container">
+    <div style="padding: 20px;" class="panel panel-default">
+        <div class="row">
+            <div class="container text-center">
+                <h2>Loan terms</h2>
+                <p>Loan Type: {{loanType?.loanType}}</p>
+                <p>Loan yearly interes rate: {{loanType?.interestRate}}%</p>
+            </div>
+            <div class="container">
+                <h2>Please provide details of your loan</h2>
+                <form [formGroup]="calculationForm" (ngSubmit)="onSubmit()">
+                    <div class="form-group">
+                        <label for="loanAmount">Loan amount ($)</label>
+                        <input id="loanAmount" class="form-control" formControlName="loanAmount">
+                        <div *ngIf="loanAmount.touched && loanAmount.invalid" class="alert alert-danger">
+                            <div *ngIf="loanAmount.hasError('required')">Loan amount is required!</div>
+                            <div *ngIf="loanAmount.hasError('pattern')">Please provide numeric value!</div>
+                            <div *ngIf="loanAmount.hasError('maxlength')">Amount is too high!</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="installmentsYears">Number of years to repay loan</label>
+                        <input id="installmentsYears" class="form-control" formControlName="installmentsYears">
+                        <div *ngIf="installmentsYears.touched && installmentsYears.invalid" class="alert alert-danger">
+                            <div *ngIf="installmentsYears.hasError('required')">Number of years is required!</div>
+                            <div *ngIf="installmentsYears.hasError('pattern')">Please provide numeric value!</div>
+                            <div *ngIf="installmentsYears.hasError('maxlength')">Number of years is too high!</div>
+                        </div>
+                    </div>
+                    <button type="submit" [disabled]="calculationForm.invalid" class="btn btn-primary" >Generate repayment schedule plan</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="repaymentPlan" style="padding: 20px;" class="panel panel-default">
+        <ag-grid-angular
+        style="width: 500px; height: 500px;"
+        class="ag-theme-alpine"
+        [rowData]="rowData"
+        [columnDefs]="columnDefs">
+        </ag-grid-angular>
+    </div>
+</div>

@@ -1,0 +1,27 @@
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" routerLink="/home">Bank Loan Calculators</a>
+      </div>
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+  
+          <li routerLinkActive="current active">
+            <a routerLink="/home">Home</a>
+          </li>
+
+          <li dropdown style="cursor: pointer;">
+            <a id="types" dropdownToggle class="dropdown-toggle" aria-controls="dropdown-basic">
+              Calculators<span class="caret"></span>
+            </a>
+            <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="types">
+              <li *ngFor="let type of loanTypes" role="menuitem">
+                <a class="dropdown-item" (click)="goToPage(type?.id)">{{type?.loanType}}</a>
+              </li>
+            </ul>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+  </nav>
