@@ -52,16 +52,16 @@ namespace API.Data.Repositories
 
             for (int i = 0; i < input.InstallmentsYears; i++)
             {
+                var monthlyInteresAmout = (capitalToRepay * (input.InterestRate/100))/12;
+
                 for (int j = 0; j < 12; j++)
                 {
-                    var monthlyInteresAmout = capitalToRepay * (input.InterestRate/100);
-
                     var installmentName = $"{(Months)j} {yearOfRepay}";
 
                     output.Add(new RepaymentPlanModel()
                     {
                         Month = installmentName,
-                        Installment = Math.Round((monthlyCapitalInstallment + monthlyInteresAmout),2)
+                        Installment = Math.Round((monthlyCapitalInstallment + monthlyInteresAmout),3)
                     });
                     capitalToRepay -= monthlyCapitalInstallment;
                 }
