@@ -47,16 +47,25 @@ namespace API.Data.Repositories
             var monthlyCapitalInstallment = input.LoanAmount / (input.InstallmentsYears * 12);
 
             var yearOfRepay = DateTime.Today.Year;
+            var monthOfRepayStart = DateTime.Today.Month;
 
             var capitalToRepay = input.LoanAmount;
 
-            for (int i = 0; i < input.InstallmentsYears; i++)
+            var repayYears = input.InstallmentsYears;
+
+            while(repayYears > 0)
             {
                 var monthlyInteresAmout = (capitalToRepay * (input.InterestRate/100))/12;
 
                 for (int j = 0; j < 12; j++)
                 {
-                    var installmentName = $"{(Months)j} {yearOfRepay}";
+                    if(monthOfRepayStart>11)
+                    {
+                        monthOfRepayStart = 0;
+                        yearOfRepay++;
+                    }
+
+                    var installmentName = $"{(Months)monthOfRepayStart} {yearOfRepay}";
 
                     output.Add(new RepaymentPlanModel()
                     {
@@ -64,10 +73,11 @@ namespace API.Data.Repositories
                         Installment = Math.Round((monthlyCapitalInstallment + monthlyInteresAmout),3)
                     });
                     capitalToRepay -= monthlyCapitalInstallment;
-                }
-                yearOfRepay++;
-            }
 
+                    monthOfRepayStart++;
+                }
+                repayYears--;
+            }
             return output;
 
         }
